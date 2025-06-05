@@ -1,0 +1,86 @@
+<!-- Touhou World Cup 2025 https://touhouworldcup.com/ -->
+<!-- Copyright (c) 2025 Paul Schwandes / 32th System -->
+<!-- All Rights Reserved. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+</head>
+<body>
+  <style>
+    @import "game/game.css";
+  </style>
+  <style class="layoutCss">
+    @import "game/P1.css";
+  </style>
+  <style class="layoutCss">
+    @import "game/P2.css";
+  </style>
+  <style class="layoutCss">
+    @import "game/P3.css";
+  </style>
+
+  <img id="audio" src="data-url:./game/audio.png">
+
+  <span id="matchInfo">
+    <div id="gameJP"></div>
+    <div id="gameEN"></div>
+    <div id="category"></div>
+  </span>
+  
+  <span id="timerContainer">
+    <span style="flex: 1"></span>
+    <span id="remainingTime">
+      <span id="remainingTimeDigit0"></span>
+      <span id="remainingTimeDigit1"></span>
+      <span id="remainingTimeDigit2"></span>
+      <span id="remainingTimeDigit3"></span>
+      <span id="remainingTimeDigit4"></span>
+      <span id="remainingTimeDigit5"></span>
+    </span>
+    <span id="finalRun">FINAL RUN!</span>
+    <span style="flex: 1" id="resetTimeText">
+      RESET<br>TIME
+    </span>
+  </span>
+
+  <span class="plate" id="plate0">
+    <span class="plateTop"></span>
+    <span class="plateMiddle"></span>
+    <span class="plateBottom"></span>
+  </span>
+
+  <span class="plate" id="plate1">
+    <span class="plateTop"></span>
+    <span class="plateMiddle"></span>
+    <span class="plateBottom"></span>
+  </span>
+
+  <span class="plate" id="plate2">
+    <span class="plateTop"></span>
+    <span class="plateMiddle"></span>
+    <span class="plateBottom"></span>
+  </span>
+
+  <span class="plate" id="plate3">
+    <span class="plateTop"></span>
+    <span class="plateMiddle"></span>
+    <span class="plateBottom"></span>
+  </span>
+
+  <span class="plate" id="plate4">
+    <span class="plateTop"></span>
+    <span class="plateMiddle"></span>
+    <span class="plateBottom"></span>
+  </span>
+  
+  <span id="results">
+    <span id="resultsInner"></span>
+  </span>
+  <script type="module">
+    import './game/game.ts';
+  </script>
+</body>
+</html>

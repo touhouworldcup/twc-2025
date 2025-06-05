@@ -1,0 +1,31 @@
+/*
+ * Touhou World Cup 2025 https://touhouworldcup.com/
+ * Copyright (c) 2025 Paul Schwandes / 32th System
+ * All Rights Reserved.
+ */
+
+#log {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: calc(100% - 20px);
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: end;
+  background-color: black;
+  overflow: hidden;
+}
+
+#log > * {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  color: white;
+  font-size: 20px;
+  word-break: break-all;
+}
+
+img, canvas {
+  opacity: 0;
+}

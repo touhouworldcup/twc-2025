@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "top": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "bottom": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "results": {
+      "type": "string"
+    },
+    "resultsFinal": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "top",
+    "bottom",
+    "results",
+    "resultsFinal"
+  ]
+}

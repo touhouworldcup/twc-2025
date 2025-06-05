@@ -1,0 +1,45 @@
+/*
+ * Touhou World Cup 2025 https://touhouworldcup.com/
+ * Copyright (c) 2025 Paul Schwandes / 32th System
+ * All Rights Reserved.
+ */
+
+@import "../common.css";
+
+body {
+  color: #d07d43;
+}
+
+#matchInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  text-wrap: nowrap;
+  left: 53px;
+  top: 132px;
+  width: 520px;
+  height: 100px;
+}
+
+#results {
+  left: 53px;
+  top: 265px;
+  width: 520px;
+  height: 320px;
+}
+
+#credit {
+  left: 655px;
+  top: 945px;
+  width: 1186px;
+  height: 83px;
+}
+
+#artwork {
+  left: 655px;
+  top: 52px;
+  width: 1186px;
+  height: 889px;
+}

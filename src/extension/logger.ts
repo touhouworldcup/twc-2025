@@ -1,0 +1,16 @@
+// Touhou World Cup 2025 https://touhouworldcup.com/
+// Copyright (c) 2025 Paul Schwandes / 32th System
+// All Rights Reserved.
+
+import { nodecg } from './util/nodecg'
+
+type LogLevel = 'debug' | 'error' | 'info' | 'warn'
+interface LogMessage {
+  level: LogLevel
+  dataString: string
+}
+
+nodecg.listenFor('log', (message: LogMessage) => {
+  const data: unknown[] = JSON.parse(message.dataString)
+  nodecg.log[message.level](...data)
+})

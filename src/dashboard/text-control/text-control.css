@@ -1,0 +1,9 @@
+#plateTexts {
+  display: grid;
+  grid-template-columns: min-content 1fr 1fr;
+  white-space: nowrap;
+  text-align: left;
+}
+#plateTexts > * {
+  margin-left: 5px;
+}

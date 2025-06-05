@@ -1,0 +1,123 @@
+{
+  "name": "twc-2025",
+  "version": "0.0.0",
+  "description": "TWC 2025 NodeCG bundle",
+  "homepage": "",
+  "license": "CUSTOM",
+  "copyright.owner": "Paul Schwandes / 32th System",
+  "contributors": [
+    {
+      "name": "Paul Schwandes (fGeorjje)",
+      "email": "paul@schwandes.de",
+      "url": "https://schwandes.de"
+    },
+    {
+      "name": "32th-System",
+      "email": "intensonat@gmail.com",
+      "url": "https://touhouworldcup.com"
+    }
+  ],
+  "standard": {
+    "globals": [
+      "nodecg"
+    ]
+  },
+  "scripts": {
+    "autofix": "run-s autofix:*",
+    "autofix:graphics": "npx ts-standard src/graphics/**/*.ts --fix",
+    "autofix:dashboard": "npx ts-standard src/dashboard/**/*.ts --fix",
+    "autofix:extension": "npx ts-standard src/extension/**/*.ts --project \"src/extension/tsconfig.json\" --fix",
+    "autofix:shared": "npx ts-standard src/shared/**/*.ts --fix",
+    "clean": "run-p clean:*",
+    "clean:cache": "trash .parcel-cache",
+    "clean:graphics": "trash graphics",
+    "clean:dashboard": "trash dashboard",
+    "clean:extension": "trash extension",
+    "clean:shared": "trash shared",
+    "build": "run-p build:*",
+    "build:graphics": "parcel build src/graphics/**/*.html --dist-dir graphics --public-url .",
+    "build:dashboard": "parcel build src/dashboard/**/*.html --dist-dir dashboard --public-url .",
+    "build:extension": "npx tsc -b src/extension/tsconfig.json",
+    "deploy": "run-p deploy:*",
+    "deploy:dashboard": "npx copyfiles \"dashboard/**/*\"  \"\\\\touhouworldcup.com\\george\\twc-2025-nodecg\\bundles\\twc-2025",
+    "deploy:graphics": "npx copyfiles \"graphics/**/*\"   \"\\\\touhouworldcup.com\\george\\twc-2025-nodecg\\bundles\\twc-2025",
+    "deploy:extension": "npx copyfiles \"extension/**/*\" \"shared/**/*\" \"\\\\touhouworldcup.com\\george\\twc-2025-nodecg\\bundles\\twc-2025",
+    "build-and-deploy": "run-p build-and-deploy:*",
+    "build-and-deploy:dashboard": "run-s build:dashboard deploy:dashboard",
+    "build-and-deploy:graphics": "run-s build:graphics deploy:graphics",
+    "build-and-deploy:extension": "run-s build:extension deploy:extension"
+  },
+  "nodecg": {
+    "compatibleRange": "^2.0.0",
+    "dashboardPanels": [
+      {
+        "name": "text-control",
+        "title": "Text Control",
+        "width": 6,
+        "file": "text-control.html"
+      },
+      {
+        "name": "admin-buttons",
+        "title": "Admin Buttons",
+        "width": 3,
+        "file": "admin-buttons.html"
+      }
+    ],
+    "graphics": [
+      {
+        "file": "game.html",
+        "width": 1920,
+        "height": 1080,
+        "singleInstance": false
+      },
+      {
+        "file": "card.html",
+        "width": 1920,
+        "height": 1080,
+        "singleInstance": false
+      },
+      {
+        "file": "results.html",
+        "width": 1920,
+        "height": 1080,
+        "singleInstance": false
+      },
+      {
+        "file": "obs-controller.html",
+        "width": 1920,
+        "height": 1080,
+        "singleInstance": false
+      }
+    ],
+    "assetCategories": [
+      {
+        "name": "artwork",
+        "title": "Artworks",
+        "allowedTypes": [
+          "jpg",
+          "jpeg",
+          "gif",
+          "png"
+        ]
+      }
+    ]
+  },
+  "devDependencies": {
+    "@parcel/optimizer-data-url": "^2.14.4",
+    "@parcel/transformer-inline-string": "^2.14.4",
+    "@types/textfit": "^2.4.5",
+    "copyfiles": "^2.4.1",
+    "nodecg": "^2.5.3",
+    "nodecg-speedcontrol": "github:speedcontrol/nodecg-speedcontrol",
+    "npm-run-all": "^4.1.5",
+    "parcel": "^2.14.4",
+    "trash-cli": "^6.0.0",
+    "ts-standard": "^12.0.2"
+  },
+  "dependencies": {
+    "nocodb-sdk": "^0.263.1",
+    "obs-websocket-js": "^5.0.6",
+    "speedcontrol-util": "^0.6.1",
+    "textfit": "^2.4.0"
+  }
+}

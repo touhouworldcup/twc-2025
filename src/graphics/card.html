@@ -1,0 +1,83 @@
+<!-- Touhou World Cup 2025 https://touhouworldcup.com/ -->
+<!-- Copyright (c) 2025 Paul Schwandes / 32th System -->
+<!-- All Rights Reserved. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Card</title>
+</head>
+<body>
+  <style>
+    @import "card/card.css";
+  </style>
+  <img id="logo" src="data-url:./card/logo.png">
+  
+  <div id="scrollContainer">
+    <canvas id="scrollBuilder" width="506" height="2160"></canvas>
+    <img id="scrollTile" src="data-url:./card/scroll-tile.png">
+    <canvas id="scroll" width="506" height="2160"></canvas>
+  </div>
+
+  <div id="time">
+    <div id="timeTop">May 24</div>
+    <div id="timeMiddle">
+      <span id="timer0" class="digit">2</span>
+      <span id="timer1" class="digit">3</span>
+      <span id="timer2" class="colon">:</span>
+      <span id="timer3" class="digit">4</span>
+      <span id="timer4" class="digit">5</span>
+    </div>
+    <div id="timeBottom">GMT+9</div>
+  </div>
+  
+  <div id="outerPlayersContainer">
+    <div id="playersContainer">
+      <div id="player0">
+        <div class="team"></div>
+        <div class="name">
+          <span class="nameEN"></span>
+          <span class="nameJP"></span>
+        </div>
+      </div>
+      <div id="player1">
+        <div class="team"></div>
+        <div class="name">
+          <span class="nameEN"></span>
+          <span class="nameJP"></span>
+        </div>
+      </div>
+      <div id="player2">
+        <div class="team"></div>
+        <div class="name">
+          <span class="nameEN"></span>
+          <span class="nameJP"></span>
+        </div>
+      </div>
+      <div id="player3">
+        <div class="team"></div>
+        <div class="name">
+          <span class="nameEN"></span>
+          <span class="nameJP"></span>
+        </div>
+      </div>
+      <div id="player4">
+        <div class="team"></div>
+        <div class="name">
+          <span class="nameEN"></span>
+          <span class="nameJP"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="matchInfo">
+    <div id="gameJP"></div>
+    <div id="gameEN"></div>
+    <div id="category"></div>
+  </div>
+  <script type="module">
+    import './card/card.ts';
+  </script>
+</body>
+</html>
