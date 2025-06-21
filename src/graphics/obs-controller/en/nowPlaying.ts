@@ -26,7 +26,7 @@ async function pollSong0 (): Promise<void> {
   await new Promise(resolve => setTimeout(resolve, 20))
   lastText = text
 
-  const sceneName = 'Slides'
+  const sceneName = 'Pre-Match Slides'
 
   const { sceneItemId } = await obs.call('GetSceneItemId', {
     sceneName, sourceName

@@ -3,6 +3,7 @@
 // All Rights Reserved.
 
 import { setupAudio } from './en/audio'
+import { fixFoobarVolume } from './en/fix-foobar-volume'
 import { setupNowPlaying } from './en/nowPlaying'
 import { checkVoiceDisplazCrop as checkVoiceDisplayCrop } from './en/vc-crop'
 import { connectOBS } from './obs-controller'
@@ -13,7 +14,8 @@ export async function initEnglishController (): Promise<void> {
   void setupAudio()
   setupNowPlaying()
   void checkVoiceDisplayCrop()
+  setInterval(fixFoobarVolume, 5000)
   setInterval(() => {
     checkVoiceDisplayCrop().catch(console.error)
-  }, 1000)
+  }, 5000)
 }
