@@ -5,8 +5,8 @@
 type NocoView = [string, string, string, string]
 
 export interface DatabaseConfiguration {
-  token: string,
-  hourOffset: number,
+  token: string
+  hourOffset: number
   scheduleView: NocoView
   playersView: NocoView
 }

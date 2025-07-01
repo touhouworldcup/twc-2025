@@ -57,7 +57,7 @@ function createRunData (match: Match, players: Player[]): RunData[] {
 }
 
 function getMatchCustomData (match: Match): {
-  [key: string]: string;
+  [key: string]: string
 } {
   const Date__UTC_ = match.Date__UTC_
   if (Date__UTC_ === null) return {}
@@ -84,7 +84,7 @@ function createTeam (player: string, index: number, players: Player[]): RunDataT
   }]
 }
 
-function createPlayer(player: Player): RunDataPlayer {
+function createPlayer (player: Player): RunDataPlayer {
   const nameJP = player.JapaneseName ?? player.ChineseName
   return {
     name: player.Name,
