@@ -48,7 +48,7 @@ function createRunData (match: Match, players: Player[]): RunData[] {
     id: id(match.Category),
     game: `${shortName ?? numberName} ${category}`,
     gameTwitch: 'Touhou Project',
-    estimateS: match.ResetTime * 60,
+    estimate: getEstimate(match.ResetTime),
     teams: [match.Player_1, match.Player_2, match.Player_3].flatMap((player, index) => {
       return createTeam(player, index, players)
     }),
@@ -56,17 +56,25 @@ function createRunData (match: Match, players: Player[]): RunData[] {
   }]
 }
 
+function getEstimate (minutes: number): string {
+  const hh = `${Math.floor(minutes / 60)}`.padStart(2, '0')
+  const mm = `${minutes % 60}`.padStart(2, '0')
+  return `${hh}:${mm}:00`
+}
+
 function getMatchCustomData (match: Match): {
   [key: string]: string
 } {
+  const existingCustomData = nodecg.readReplicant<RunData[]>('runDataArray', 'nodecg-speedcontrol')
+    ?.find(other => other.id === id(match.Category))?.customData ?? {}
   const Date__UTC_ = match.Date__UTC_
   if (Date__UTC_ === null) return {}
   const hourOffset = config.hourOffset
   const offset = hourOffset * 3600000
   const dbTime = Date.parse(Date__UTC_)
-  return {
+  return Object.assign({}, existingCustomData, {
     startTime: new Date(dbTime + offset).toISOString()
-  }
+  })
 }
 
 function createTeam (player: string, index: number, players: Player[]): RunDataTeam[] {
