@@ -4,5 +4,6 @@
 
 import { updateRunsFromDatabase } from './db/db'
 import './logger'
+import { nodecg } from './util/nodecg'
 
-updateRunsFromDatabase()
+updateRunsFromDatabase().catch((error) => nodecg.log.error(error))
