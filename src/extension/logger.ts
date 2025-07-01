@@ -10,7 +10,9 @@ interface LogMessage {
   dataString: string
 }
 
-nodecg.listenFor('log', (message: LogMessage) => {
-  const data: unknown[] = JSON.parse(message.dataString)
-  nodecg.log[message.level](...data)
-})
+export function setupRemoteLoggerListener (): void {
+  nodecg.listenFor('log', (message: LogMessage) => {
+    const data: unknown[] = JSON.parse(message.dataString)
+    nodecg.log[message.level](...data)
+  })
+}

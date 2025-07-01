@@ -16,18 +16,14 @@ const api = new Api({
   }
 })
 
-nodecg.listenFor('update-runs', 'twc-2025', async (_, ack) => {
-  if (!ack || ack.handled) return
-  try {
-    await updateRunsFromDatabase()
-    ack(null, 'Success')
-  } catch (error) {
-    nodecg.log.error(error)
-    ack(null, 'Error')
-  }
-})
+export function setupUpdateRunsListener (): void {
+  nodecg.listenFor('update-runs', 'twc-2025', async (_, ack) => {
+    if (!ack || ack.handled) return
+    updateRunsFromDatabase().then(() => ack(null, true)).catch(() => ack(null, false))
+  })
+}
 
-export async function updateRunsFromDatabase (): Promise<void> {
+async function updateRunsFromDatabase (): Promise<void> {
   nodecg.log.info('Updating runs from database')
   const schedule = await getTable<Match>(...config.scheduleView)
   const players = await getTable<Player>(...config.playersView)

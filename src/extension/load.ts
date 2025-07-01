@@ -2,8 +2,8 @@
 // Copyright (c) 2025 Paul Schwandes / 32th System
 // All Rights Reserved.
 
-import { updateRunsFromDatabase } from './db/db'
-import './logger'
-import { nodecg } from './util/nodecg'
+import { setupUpdateRunsListener } from './db/db'
+import { setupRemoteLoggerListener } from './logger'
 
-updateRunsFromDatabase().catch((error) => nodecg.log.error(error))
+setupUpdateRunsListener()
+setupRemoteLoggerListener()
