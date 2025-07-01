@@ -45,7 +45,7 @@
       "context": "node",
       "outputFormat": "commonjs",
       "scopeHoist": false,
-      "optimize": true,
+      "optimize": false,
       "engines": {
         "node": "= 20"
       }
