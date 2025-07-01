@@ -22,30 +22,45 @@
       "nodecg"
     ]
   },
+  "targets": {
+    "graphics": {
+      "source": "src/graphics/**/*.html",
+      "distDir": "graphics",
+      "context": "browser",
+      "engines": {
+        "browsers": "Chrome 103"
+      }
+    },
+    "dashboard": {
+      "source": "src/dashboard/**/*.html",
+      "distDir": "dashboard",
+      "context": "browser",
+      "engines": {
+        "browsers": "Chrome 103"
+      }
+    },
+    "extension": {
+      "source": "src/extension/**/*.ts",
+      "distDir": "extension",
+      "context": "node",
+      "outputFormat": "commonjs",
+      "scopeHoist": false,
+      "optimize": true,
+      "engines": {
+        "node": "= 20"
+      }
+    }
+  },
+  "@parcel/bundler-default": {
+    "minBundles": 10000,
+    "minBundleSize": 3000,
+    "maxParallelRequests": 20
+  },
   "scripts": {
-    "autofix": "run-s autofix:*",
-    "autofix:graphics": "npx ts-standard src/graphics/**/*.ts --fix",
-    "autofix:dashboard": "npx ts-standard src/dashboard/**/*.ts --fix",
-    "autofix:extension": "npx ts-standard src/extension/**/*.ts --project \"src/extension/tsconfig.json\" --fix",
-    "autofix:shared": "npx ts-standard src/shared/**/*.ts --fix",
-    "clean": "run-p clean:*",
-    "clean:cache": "trash .parcel-cache",
-    "clean:graphics": "trash graphics",
-    "clean:dashboard": "trash dashboard",
-    "clean:extension": "trash extension",
-    "clean:shared": "trash shared",
-    "build": "run-p build:*",
-    "build:graphics": "parcel build src/graphics/**/*.html --dist-dir graphics --public-url .",
-    "build:dashboard": "parcel build src/dashboard/**/*.html --dist-dir dashboard --public-url .",
-    "build:extension": "npx tsc -b src/extension/tsconfig.json",
-    "deploy": "run-p deploy:*",
-    "deploy:dashboard": "npx copyfiles \"dashboard/**/*\"  \"\\\\touhouworldcup.com\\george\\twc-2025-nodecg\\bundles\\twc-2025",
-    "deploy:graphics": "npx copyfiles \"graphics/**/*\"   \"\\\\touhouworldcup.com\\george\\twc-2025-nodecg\\bundles\\twc-2025",
-    "deploy:extension": "npx copyfiles \"extension/**/*\" \"shared/**/*\" \"\\\\touhouworldcup.com\\george\\twc-2025-nodecg\\bundles\\twc-2025",
-    "build-and-deploy": "run-p build-and-deploy:*",
-    "build-and-deploy:dashboard": "run-s build:dashboard deploy:dashboard",
-    "build-and-deploy:graphics": "run-s build:graphics deploy:graphics",
-    "build-and-deploy:extension": "run-s build:extension deploy:extension"
+    "autofix": "npx ts-standard src/graphics/**/*.ts src/dashboard/**/*.ts src/shared/**/*.ts --fix && npx ts-standard src/extension/**/*.ts --project \"src/extension/tsconfig.json\" --fix",
+    "clean": "trash .parcel-cache graphics dashboard extension shared",
+    "build": "parcel build",
+    "deploy": "npx copyfiles \"dashboard/**/*\" \"graphics/**/*\" \"extension/**/*\" \"\\\\touhouworldcup.com\\george\\twc-2025-nodecg\\bundles\\twc-2025"
   },
   "nodecg": {
     "compatibleRange": "^2.0.0",
