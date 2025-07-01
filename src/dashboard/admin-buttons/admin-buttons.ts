@@ -4,7 +4,20 @@
 
 import { querySelector } from '../../shared/browser-common'
 
-const button = querySelector < HTMLButtonElement >('#reload')
-button.addEventListener('click', () => {
+const reloadButton = querySelector<HTMLButtonElement>('#reload')
+reloadButton.addEventListener('click', () => {
+  reloadButton.disabled = true
   void nodecg.sendMessage('reloadPages', 'twc-2025')
+  setTimeout(() => {
+    reloadButton.disabled = false
+  }, 5000)
+})
+
+const updateDatabaseButton = querySelector<HTMLButtonElement>('#update-db')
+updateDatabaseButton.addEventListener('click', () => {
+  updateDatabaseButton.disabled = true
+  updateDatabaseButton.innerText = 'Updating...'
+  void nodecg.sendMessage('update-runs', 'twc-2025').then((result) => {
+    updateDatabaseButton.innerText = `Updated database: ${result as string}`
+  })
 })

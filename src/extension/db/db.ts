@@ -16,8 +16,15 @@ const api = new Api({
   }
 })
 
-nodecg.listenFor('update-runs', () => {
-  void updateRunsFromDatabase()
+nodecg.listenFor('update-runs', 'twc-2025', async (_, ack) => {
+  if (!ack || ack.handled) return
+  try {
+    await updateRunsFromDatabase()
+    ack(null, 'Success')
+  } catch (error) {
+    nodecg.log.error(error)
+    ack(null, 'Error')
+  }
 })
 
 export async function updateRunsFromDatabase (): Promise<void> {
