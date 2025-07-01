@@ -17,8 +17,8 @@ const api = new Api({
 })
 
 export function setupUpdateRunsListener (): void {
-  nodecg.listenFor('update-runs', 'twc-2025', async (_, ack) => {
-    if (!ack || ack.handled) return
+  nodecg.listenFor('update-runs', 'twc-2025', (_, ack) => {
+    if (ack === undefined || ack.handled) return
     updateRunsFromDatabase().then(() => ack(null, true)).catch(() => ack(null, false))
   })
 }
@@ -65,16 +65,17 @@ function getEstimate (minutes: number): string {
   return `${hh}:${mm}:00`
 }
 
+const dateUTCKey = 'Date__UTC_'
 function getMatchCustomData (match: Match): {
   [key: string]: string
 } {
   const existingCustomData = nodecg.readReplicant<RunData[]>('runDataArray', 'nodecg-speedcontrol')
     ?.find(other => other.id === id(match.Category))?.customData ?? {}
-  const Date__UTC_ = match.Date__UTC_
-  if (Date__UTC_ === null) return {}
+  const time = match[dateUTCKey]
+  if (time === null) return {}
   const hourOffset = config.hourOffset
   const offset = hourOffset * 3600000
-  const dbTime = Date.parse(Date__UTC_)
+  const dbTime = Date.parse(time)
   return Object.assign({}, existingCustomData, {
     startTime: new Date(dbTime + offset).toISOString()
   })
