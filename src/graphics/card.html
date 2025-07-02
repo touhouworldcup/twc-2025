@@ -6,17 +6,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="card/card.css">
     <title>Match Card</title>
 </head>
 <body>
-  <style>
-    @import "card/card.css";
-  </style>
-  <img id="logo" src="data-url:./card/logo.png">
+  <img id="logo" src="./card/logo.png">
   
   <div id="scrollContainer">
     <canvas id="scrollBuilder" width="506" height="2160"></canvas>
-    <img id="scrollTile" src="data-url:./card/scroll-tile.png">
+    <img id="scrollTile" src="./card/scroll-tile.png">
     <canvas id="scroll" width="506" height="2160"></canvas>
   </div>
 
@@ -76,8 +74,6 @@
     <div id="gameEN"></div>
     <div id="category"></div>
   </div>
-  <script type="module">
-    import './card/card.ts';
-  </script>
+  <script type="module" src="./card/card.ts"></script>
 </body>
 </html>

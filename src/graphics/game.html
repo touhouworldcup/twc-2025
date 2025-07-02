@@ -6,23 +6,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./game/game.css">
+    <link rel="stylesheet" class="layoutCss" href="./game/P1.css">
+    <link rel="stylesheet" class="layoutCss" href="./game/P2.css">
+    <link rel="stylesheet" class="layoutCss" href="./game/P3.css">
     <title>Game</title>
 </head>
 <body>
-  <style>
-    @import "game/game.css";
-  </style>
-  <style class="layoutCss">
-    @import "game/P1.css";
-  </style>
-  <style class="layoutCss">
-    @import "game/P2.css";
-  </style>
-  <style class="layoutCss">
-    @import "game/P3.css";
-  </style>
-
-  <img id="audio" src="data-url:./game/audio.png">
+  <img id="audio" src="./game/audio.png">
 
   <span id="matchInfo">
     <div id="gameJP"></div>
@@ -79,8 +70,6 @@
   <span id="results">
     <span id="resultsInner"></span>
   </span>
-  <script type="module">
-    import './game/game.ts';
-  </script>
+  <script type="module" src="./game/game.ts"></script>
 </body>
 </html>
