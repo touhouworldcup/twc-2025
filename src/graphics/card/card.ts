@@ -12,26 +12,23 @@ const timezone = parseInt(params.get('timezone') ?? '9', 10)
 function renderColorBackground (color: string): void {
   const scrollBuilder = querySelector<HTMLCanvasElement>('#scrollBuilder')
   const scrollTile = querySelector<HTMLImageElement>('#scrollTile')
-  const scrollFinal = querySelector<HTMLCanvasElement>('#scroll')
+  const scroll = querySelector<HTMLImageElement>('#scroll')
 
-  let ctx = scrollBuilder.getContext('2d')
+  const ctx = scrollBuilder.getContext('2d')
   if (ctx === null) return
 
   for (let i = 0; i < 40; i++) {
     ctx.drawImage(scrollTile, 0, i * 54)
   }
 
-  ctx = scrollFinal.getContext('2d')
-  if (ctx === null) return
-
-  ctx.clearRect(0, 0, 506, 2160)
-  ctx.globalCompositeOperation = 'copy' // copy pixel-to-pixel source image
-  ctx.drawImage(scrollBuilder, 0, 0)
   ctx.globalCompositeOperation = 'multiply' // multiply it by red color
   ctx.fillStyle = color
   ctx.fillRect(0, 0, 506, 2160)
   ctx.globalCompositeOperation = 'destination-atop' // restore transparency
   ctx.drawImage(scrollBuilder, 0, 0)
+  scroll.src = scrollBuilder.toDataURL()
+  scrollBuilder.remove()
+  scrollTile.remove()
 }
 
 let matchTime = Date.now()
