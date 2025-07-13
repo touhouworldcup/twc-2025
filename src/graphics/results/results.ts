@@ -16,6 +16,18 @@ const artworkAssets = nodecg.Replicant<Array<{
 }>>('assets:artwork')
 waitForReplicants(textControlReplicant, runData, artworkAssets)
 onLoad(async () => {
+  textControlReplicant.on('change', (tc) => {
+    if (tc === undefined) return
+    setTimeout(() => {
+      setText('#results', tc.resultsFinal, {
+        alignHoriz: true,
+        alignVert: true,
+        multiLine: true,
+        maxFontSize: 40
+      })
+    }, 2000)
+  })
+
   const run = runData.value
   if (run === undefined) return
   const { game, category } = getGameDataByRun(run)
@@ -30,25 +42,17 @@ onLoad(async () => {
 
   const credit = run.customData.artworkCredit
   if (credit !== undefined) {
-    setText('#credit', `Artwork by ${credit}`, {
-      alignHoriz: true,
-      alignVert: true,
-      maxFontSize: 60
-    })
+    setTimeout(() => {
+      setText('#credit', `Artwork by ${credit}`, {
+        alignHoriz: true,
+        alignVert: true,
+        maxFontSize: 60
+      })
+    }, 2000)
   }
 
   const asset = artworkAssets.value?.find(asset => asset.base === run.customData.artworkFile)
   if (asset !== undefined) {
     querySelector<HTMLImageElement>('#artwork').src = asset.url
   }
-})
-
-textControlReplicant.on('change', (tc) => {
-  if (tc === undefined) return
-  setText('#results', tc.resultsFinal, {
-    alignHoriz: true,
-    alignVert: true,
-    multiLine: true,
-    maxFontSize: 40
-  })
 })
