@@ -25,6 +25,7 @@
   "targets": {
     "graphics": {
       "source": "src/graphics/**/*.html",
+      "publicUrl": "/bundles/twc-2025/graphics",
       "distDir": "graphics",
       "context": "browser",
       "engines": {
@@ -33,6 +34,7 @@
     },
     "dashboard": {
       "source": "src/dashboard/**/*.html",
+      "publicUrl": "/bundles/twc-2025/dashboard",
       "distDir": "dashboard",
       "context": "browser",
       "engines": {
