@@ -26,9 +26,12 @@ function renderColorBackground (color: string): void {
   ctx.fillRect(0, 0, 506, 2160)
   ctx.globalCompositeOperation = 'destination-atop' // restore transparency
   ctx.drawImage(scrollBuilder, 0, 0)
-  scroll.src = scrollBuilder.toDataURL()
-  scrollBuilder.remove()
-  scrollTile.remove()
+  scrollBuilder.toBlob((blob) => {
+    const url = URL.createObjectURL(blob as Blob)
+    scroll.src = url
+    scrollBuilder.remove()
+    scrollTile.remove()
+  })
 }
 
 let matchTime = Date.now()
