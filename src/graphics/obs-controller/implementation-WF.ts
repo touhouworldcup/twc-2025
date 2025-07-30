@@ -4,8 +4,10 @@
 
 import { ActiveAudio } from 'src/types/schemas/active-audio'
 import { connectOBS, fadeAudio, obs } from './obs-controller'
+import { RunData } from 'nodecg-speedcontrol/src/types'
 
 const activeAudio = nodecg.Replicant<ActiveAudio>('active-audio', 'twc-2025')
+const runData = nodecg.Replicant<RunData>('runDataActiveRun', 'nodecg-speedcontrol')
 
 let currentScene = ''
 export async function initWorldFeedController (): Promise<void> {
@@ -107,15 +109,22 @@ async function executeCommand (command: string): Promise<void> {
 }
 
 async function handleFoobar (executionTime: number): Promise<void> {
+  await NodeCG.waitForReplicants(runData)
+  const startTime = runData.value?.customData?.startTime
+  if (startTime === undefined) return
+  const triggerTime = Date.parse(startTime) - 600000
+  if (triggerTime > Date.now()) return
+
   const { player } = await fetch('http://localhost:8880/api/player').then(async r => await r.json())
   const isPlaying = player.activeItem.position > 0
   const shouldBePlaying = !isPlayerScene()
   await waitForExecutionTime(executionTime)
   if (isPlaying && !shouldBePlaying) {
+    await waitForExecutionTime(executionTime + 1000)
     void executeCommand('stop')
   }
   if (!isPlaying && shouldBePlaying) {
-    await waitForExecutionTime(3000)
+    await waitForExecutionTime(executionTime + 5000)
     void executeCommand('play')
   }
 }
