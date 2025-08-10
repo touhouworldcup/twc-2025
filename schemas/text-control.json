@@ -19,6 +19,9 @@
     },
     "resultsFinal": {
       "type": "string"
+    },
+    "selectedPlayer": {
+      "type": "number"
     }
   },
   "required": [

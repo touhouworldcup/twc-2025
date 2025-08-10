@@ -34,14 +34,13 @@ function renderColorBackground (color: string): void {
   })
 }
 
-let matchTime = Date.now()
+let matchTime: number | undefined
 const runData = nodecg.Replicant<RunData>('runDataActiveRun', 'nodecg-speedcontrol')
 waitForReplicants(runData)
 onLoad(async () => {
   const run = runData.value
   if (run === undefined) return
 
-  matchTime = Date.parse(run.customData.startTime)
   const { game, category } = getGameDataByRun(run)
 
   setText('#gameJP', game.japaneseName)
@@ -57,14 +56,25 @@ onLoad(async () => {
       continue
     }
     plate.style.removeProperty('display')
-    const player = team.players[0]
-    setText(`#player${i} > .team`, team.name)
+    const players = team.players
     querySelector(`#player${i} > .team`).setAttribute('team', team.name ?? '')
-    setText(`#player${i} > .name > .nameEN`, player.name)
-    setText(`#player${i} > .name > .nameJP`, player.customData?.nameJP)
+    setText(`#player${i} > .team`, team.name)
+    if (players.length === 1) {
+      const player = players[0]
+      setText(`#player${i} > .name > .nameEN`, player.name)
+      setText(`#player${i} > .name > .nameJP`, player.customData?.nameJP)
+    } else {
+      const text = players.map(p => p.name).join(', ')
+      setText(`#player${i} > .name > .nameEN`, text)
+      setText(`#player${i} > .name > .nameJP`, '')
+    }
   }
 
   setTimeout(scalePlayerContainer, 100)
+
+  const startTime = run.customData.startTime
+  if (startTime === undefined) return
+  matchTime = Date.parse(startTime)
   updateTimer()
 })
 
@@ -77,6 +87,7 @@ function scalePlayerContainer (): void {
 
 function updateTimer (): void {
   if (matchTime === undefined) return
+  console.log(matchTime)
   let remaining = (matchTime - Date.now())
   if (remaining < 0) {
     remaining = 0

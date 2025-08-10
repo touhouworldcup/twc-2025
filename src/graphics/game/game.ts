@@ -2,8 +2,8 @@
 // Copyright (c) 2025 Paul Schwandes / 32th System
 // All Rights Reserved.
 
-import { Timer } from 'nodecg-speedcontrol/src/types'
-import { querySelector, params, setText, waitForReplicants } from 'src/shared/browser-common'
+import { RunData, Timer } from 'nodecg-speedcontrol/src/types'
+import { querySelector, params, setText, waitForReplicants, onLoad } from 'src/shared/browser-common'
 import { TextControl } from 'src/types/schemas/text-control'
 import { ActiveAudio } from 'src/types/schemas/active-audio'
 import { TextFitOption } from 'textfit'
@@ -14,14 +14,33 @@ const timerReplicant = nodecg.Replicant<Timer>('timer', 'nodecg-speedcontrol')
 const textControlReplicant = nodecg.Replicant<TextControl>('text-control', 'twc-2025')
 const activeAudio = nodecg.Replicant<ActiveAudio>('active-audio', 'twc-2025')
 waitForReplicants(timerReplicant, runReplicant, textControlReplicant, activeAudio)
+onLoad(async () => {
+  activeAudio.on('change', onActiveAudioChange)
+  runReplicant.on('change', onRunChange)
+  textControlReplicant.on('change', onTextControlChange)
+  timerReplicant.on('change', onTimerChange)
+  setInterval(updateTimer, 10)
+})
 
 const selectedPlayers = (params.get('selectedPlayers') ?? '').split('').map(character => {
   return parseInt(character, 10)
 })
-
 const playerCount = selectedPlayers.length
 
-activeAudio.on('change', (streamNumber) => {
+const pofv = params.has('pofv')
+Array.from(document.getElementsByClassName('layoutCss'))
+  .map(elem => elem as HTMLLinkElement)
+  .forEach((elem, index) => {
+    elem.disabled = pofv || index !== playerCount - 1
+  })
+querySelector<HTMLLinkElement>('#pofvCss').disabled = !pofv
+
+const textFitOptions: TextFitOption = {
+  alignVert: true,
+  maxFontSize: 500
+}
+
+function onActiveAudioChange (streamNumber: number | undefined): void {
   if (streamNumber === undefined) return
   const index = selectedPlayers.indexOf(streamNumber)
   const element = querySelector('#audio')
@@ -29,33 +48,30 @@ activeAudio.on('change', (streamNumber) => {
   setTimeout(() => {
     element.classList = `fadeIn audio-${index}`
   }, 500)
-})
-
-Array.from(document.getElementsByClassName('layoutCss'))
-  .map(elem => elem as HTMLLinkElement)
-  .forEach((elem, index) => {
-    elem.disabled = index !== playerCount - 1
-  })
-
-const textFitOptions: TextFitOption = {
-  alignVert: true
 }
 
-runReplicant.on('change', (run) => {
+function updatePlayerNames (): void {
+  const run = runReplicant.value
+  const tc = textControlReplicant.value
+  if (run === undefined || tc === undefined) return
+
+  let i = 0
+  for (const index of selectedPlayers) {
+    const name = run?.teams[index]?.players[tc.selectedPlayer - 1]?.name ?? ''
+    setText(`#plate${i} > .plateMiddle`, name, textFitOptions)
+    i++
+  }
+}
+
+function onRunChange (run: RunData | undefined): void {
   const { game, category } = getGameDataByRun(run)
   querySelector('#gameJP').innerText = game.japaneseName
   setStretchText('#gameEN', game.englishName)
   setStretchText('#category', category)
+  updatePlayerNames()
+}
 
-  let i = -1
-  for (const index of selectedPlayers) {
-    i++
-    const name = run?.teams[index]?.players[0]?.name ?? ''
-    setText(`#plate${i} > .plateMiddle`, name, textFitOptions)
-  }
-})
-
-textControlReplicant.on('change', tc => {
+function onTextControlChange (tc: TextControl | undefined, oldTc: TextControl | undefined): void {
   if (tc === undefined) return
   let i = -1
   for (const index of selectedPlayers) {
@@ -68,12 +84,16 @@ textControlReplicant.on('change', tc => {
     alignHoriz: true,
     alignVert: true,
     multiLine: true,
-    maxFontSize: 30
+    maxFontSize: 200
   })
-})
+
+  if (tc.selectedPlayer !== oldTc?.selectedPlayer) {
+    updatePlayerNames()
+  }
+}
 
 function adjustResultsText (results: string): string {
-  if (selectedPlayers.length !== 2) return results
+  if (selectedPlayers.length !== 2 || pofv) return results
   // remove single line breaks only
   // there is probably a way to do this with regexr
   return results.replaceAll('\n\n', '<--->')
@@ -84,7 +104,6 @@ function adjustResultsText (results: string): string {
 let lastTimer: Timer | undefined
 let lastTimerUpdateTime = Date.now()
 
-setInterval(updateTimer, 10)
 function updateTimer (): void {
   if (lastTimer === undefined) return
   if (runReplicant.status !== 'declared') return
@@ -124,7 +143,7 @@ function updateTimer (): void {
   }
 }
 
-timerReplicant.on('change', (timer) => {
+function onTimerChange (timer: Timer | undefined): void {
   lastTimer = timer
   lastTimerUpdateTime = Date.now()
-})
+}

@@ -26,6 +26,7 @@ textControlReplicant.on('change', (tc) => {
 
   querySelector<HTMLTextAreaElement>('#results').value = tc.results
   querySelector<HTMLTextAreaElement>('#resultsFinal').value = tc.resultsFinal
+  querySelector<HTMLTextAreaElement>('#player-N').value = `${tc.selectedPlayer ?? '1'}`
 })
 
 for (const elem of document.getElementsByClassName('update')) {
@@ -33,10 +34,13 @@ for (const elem of document.getElementsByClassName('update')) {
 }
 
 function update (): void {
+  let selectedPlayer = parseInt(querySelector<HTMLTextAreaElement>('#player-N').value, 10)
+  if (isNaN(selectedPlayer)) selectedPlayer = 1
   textControlReplicant.value = {
     top: [0, 1, 2, 3, 4].map(num => querySelector<HTMLInputElement>(`#p${num}_top`).value),
     bottom: [0, 1, 2, 3, 4].map(num => querySelector<HTMLInputElement>(`#p${num}_bottom`).value),
     results: querySelector<HTMLInputElement>('#results').value,
-    resultsFinal: querySelector<HTMLInputElement>('#resultsFinal').value
+    resultsFinal: querySelector<HTMLInputElement>('#resultsFinal').value,
+    selectedPlayer
   }
 }

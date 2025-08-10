@@ -24,6 +24,7 @@ export const games = [
   game('TH10', '#77CC64', 'MoF', '東方風神録', 'Mountain of Faith'),
   game('TH11', '#C68C54', 'SA', '東方地霊殿', 'Subterranean Animism'),
   game('TH12', '#349888', 'UFO', '東方星蓮船', 'Undefined Fantastic Object'),
+  game('TH125', '#26376f', 'DS', 'ダブルスポイラー ~ 東方文花帖', 'Double Spoiler'),
   game('TH128', '#26D0D7', 'GFW', '妖精大戦争', 'Great Fairy Wars'),
   game('TH13', '#AB4DE2', 'TD', '東方神霊廟', 'Ten Desires'),
   game('TH14', '#2863C5', 'DDC', '東方輝針城', 'Double Dealing Character'),
@@ -31,7 +32,9 @@ export const games = [
   game('TH16', '#F6FDA5', 'HSiFS', '東方天空璋', 'Hidden Star in Four Seasons'),
   game('TH17', '#A27279', 'WBaWC', '東方鬼形獣', 'Wily Beast and Weakest Creature'),
   game('TH18', '#26D893', 'UM', '東方虹龍洞', 'Unconnected Marketeers'),
-  game('TH19', '#12B306', 'UDoALG', '東方獣王園', 'Unfinished Dream of All Living Ghost')
+  game('TH19', '#12B306', 'UDoALG', '東方獣王園', 'Unfinished Dream of All Living Ghost'),
+  game('TH20', '#f4f4f2', 'FW', '東方錦上京', 'Fossilized Wonders'),
+  game('TH00', '#4d4d4d', '?', '', '')
 ]
 
 export function getGameDataByRun (run: RunData | undefined): { game: Game, category: string } {

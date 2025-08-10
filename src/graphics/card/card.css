@@ -131,8 +131,13 @@ body {
   color: #55ACEE;
 }
 
-.team[team="Team Momiji"] {
-  color: #DD2E44;
+.team[team="Team Soleil"] {
+  color: #ffc400;
+}
+
+.team[team="Team Muguet"] {
+  margin-top: 50px;
+  color: #bfbdd3;
 }
 
 
